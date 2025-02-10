@@ -11,7 +11,7 @@ const sessionConnect = require('connect-mongodb-session')(session)
 const app = express()
 
 const corsOptions = {  // orgin setup to front end 
-    origin: ['http://localhost:4001'], 
+    origin: ['https://energy-management-system-iot.vercel.app/'], 
     credentials: true, 
 };
 
@@ -31,11 +31,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: Store,
-    // cookie:{
-    //     secure: true,
-    //     httpOnly: true,
-    //     sameSite: 'none'
-    // }
+    cookie:{
+        secure: true,
+        httpOnly: true,
+        sameSite: 'none'
+    }
     
 }));
 
