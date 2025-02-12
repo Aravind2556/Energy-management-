@@ -11,7 +11,7 @@ const sessionConnect = require('connect-mongodb-session')(session)
 const app = express()
 
 const corsOptions = {  // orgin setup to front end 
-    origin: ['https://energy-management-system-iot.vercel.app/'], 
+    origin: ['http://localhost:4001'], 
     credentials: true, 
 };
 
@@ -31,11 +31,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: Store,
-    cookie:{
-        secure: true,
-        httpOnly: true,
-        sameSite: 'none'
-    }
+    // cookie:{
+    //     secure: true,
+    //     httpOnly: true,
+    //     sameSite: 'none'
+    // }
     
 }));
 
@@ -44,8 +44,8 @@ mongoose.connect(process.env.DB_CONNECTION_STRING)  // mongoose connection and e
 .catch((err)=>console.log('Error found on mongodb connection: ',err))
 
 
-app.listen(4000,()=>{   //which port
-    console.log("Server stared on localhost:4000")
+app.listen(3001,()=>{   //which port
+    console.log("Server stared on localhost")
 })
 
 app.use('/api', routes)

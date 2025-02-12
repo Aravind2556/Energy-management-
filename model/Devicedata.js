@@ -38,16 +38,6 @@ const deviceSchema = new mongoose.Schema(
       low: {type: Number, required: true},
       high: {type: Number, required: true}
     },
-    currentunit: {
-      value: {type: Number, required: true},
-      low: {type: Number, required: true},
-      high: {type: Number, required: true}
-    },
-    deviceflow: {
-      value: {type: Number, required: true},
-      low: {type: Number, required: true},
-      high: {type: Number, required: true}
-    },
     energy: {
       value: {type: Number, required: true},
       low: {type: Number, required: true},
