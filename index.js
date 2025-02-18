@@ -5,6 +5,7 @@ const routes = require('./routes/Register')
 const Devicerouter = require('./routes/Devicedefault')
 const cors = require('cors')
 const session = require('express-session')
+const DataRouter = require('./routes/ThinkspeakData')
 const sessionConnect = require('connect-mongodb-session')(session)
 
 
@@ -51,7 +52,7 @@ app.listen(3001,()=>{   //which port
 
 app.use('/api', routes)
 app.use('/api',Devicerouter)
-// app.use('/api',jobrouter)
+app.use('/api',DataRouter)
 // app.use('/api',ticktrouter)
 
 

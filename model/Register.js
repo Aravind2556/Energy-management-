@@ -8,9 +8,12 @@ const RegisterSchema = new mongoose.Schema({
     Contact: { type: Number, required: true, trim: true },
     Email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     Password: { type: String, required: true }, // Fixed the spelling
-    
-
-
+    Alert: [
+        {
+            DeviceId: {type: String, required: true},
+            TrackedFeeds: [{type: Number, trim: true}]
+        }
+    ]
 }, { timestamps: true });
 
 
