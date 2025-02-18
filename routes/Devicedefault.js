@@ -1,5 +1,6 @@
 const express = require('express')
 const DeviceData = require('../model/Devicedata')
+const nodemailer = require("nodemailer");
 
 const Devicerouter = express.Router();
 
@@ -181,6 +182,45 @@ Devicerouter.put(`/Update-device-data/:rangeid`, async (req, res) => {
         return res.json({ response: "notok", message: "Trouble error, contact admin" });
     }
 });
+
+Devicerouter.post('/Email-alert',async (req,res)=>{
+    try{
+
+        const {alerts}=req.body
+        console.log("alert",alerts)
+        if (!alerts || alerts.length === 0) {
+            return res.status(400).json({ success: false, message: "No alerts received" });
+          }
+      
+          // Send email logic (using nodemailer or any email service)
+          const emailBody = alerts.join("\n");
+          
+          // Example email sending logic using Nodemailer
+          let transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+            },
+          });
+      
+          let mailOptions = {
+            from: "aravindaravind2556@gmail.com",
+            to: ["aravintharavinth193@gmail.com"],
+            subject: "Device Alerts",
+            text: emailBody,
+          };
+      
+          await transporter.sendMail(mailOptions);
+          
+          res.json({ success: true, message: "Alert email sent successfully" });
+        } 
+   
+    catch(err){
+        console.error("Error updating device data:", err);
+        return res.json({ response: "notok", message: "Trouble error, contact admin" });
+    }
+})
 
 
 

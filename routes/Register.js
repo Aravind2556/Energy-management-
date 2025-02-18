@@ -1,5 +1,6 @@
 const express = require('express')
-const Register = require('../model/Register')
+const Register = require('../model/Register');
+const session = require('express-session');
 
 
 
@@ -206,9 +207,18 @@ router.post('/Admin-Login', async (req, res) => {
 
         const { Id, Name, Role, Contact, Email } = admin;
         const currentAdmin = { Id, Name, Role, Contact, Email };
-        req.session.profile = currentAdmin;
+        console.log("current admin",currentAdmin)
 
-        return res.json({ success: true, message: "Admin login successful", user: req.session.profile });
+        req.session.profile = currentAdmin;
+        req.session.save((err) => {
+            if (err) {
+              // Handle session saving error
+              return res.status(500).json({ success: false, message: "Failed to save session" });
+            }
+          
+            // If session is successfully saved, respond
+            return res.json({ success: true, message: "Admin login successful", user: req.session.profile });
+          });
     } catch (err) {
         console.log("Error in admin login:", err);
         return res.json({ success: false, message: "Error logging in, please contact support" });
@@ -245,7 +255,9 @@ router.get('/username', async (req, res) => {
 
 router.get('/checkauth', async (req, res) => {
     try {
+        console.log("api call ",req.session.profile)
         const isValidSession = req.session.profile
+        console.log("check username",isValidSession)
         if (isValidSession) {
             const fetchUser = await Register.findOne({ Email: req.session.profile.Email })
             if (fetchUser) {
