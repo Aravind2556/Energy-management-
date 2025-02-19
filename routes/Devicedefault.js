@@ -188,6 +188,8 @@ Devicerouter.delete(`/delete-device/:deviceId`, async (req, res) => {
             return res.send({success: false, message: "Device Id not found!"})
         }
 
+        console.log("deviceId:",deviceId)
+
         const fetchDevice = await DeviceData.findOne({deviceId : deviceId})
 
         if(!fetchDevice){
@@ -196,17 +198,17 @@ Devicerouter.delete(`/delete-device/:deviceId`, async (req, res) => {
 
         const deleteDevice = await DeviceData.deleteOne({deviceId : deviceId})
 
-        const updateUser = await RegisterModel.updateOne({userid: fetchDevice.userId},
+        await RegisterModel.updateOne({userid: fetchDevice.userId},
             { $pull: { Alert: { DeviceId: fetchDevice.deviceId } } }
         )
 
-        
+
 
         if (!deleteDevice) {
             return res.send({ success: false, message: "Device not found" });
         }
 
-        return res.send({ success: true, message: "Device data deleted successfully!", updates });
+        return res.send({ success: true, message: "Device data deleted successfully!" });
 
     } catch (err) {
         console.error("Error updating device data:", err);
