@@ -40,14 +40,6 @@ Devicerouter.post("/Device_data", async (req, res) => {
             frequencyValue, frequencyLow, frequencyHigh
         } = req.body;
 
-        console.log("Device Data Received:", req.body);
-
-        // Check if the userId already exists
-        const existingDevice = await DeviceData.findOne({ userId: userId });
-        if (existingDevice) {
-            return res.status(400).json({ success: false, message: "Device with this user ID already exists." });
-        }
-
         // Create a new device entry
         const newDevice = new DeviceData({
             Id: id,

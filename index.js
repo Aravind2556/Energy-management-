@@ -33,11 +33,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: Store,
-    cookie:{
-        secure: true,
-        httpOnly: true,
-        sameSite: 'none'
-    }
+    // cookie:{
+    //     secure: true,
+    //     httpOnly: true,
+    //     sameSite: 'none'
+    // }
     
 }));
 

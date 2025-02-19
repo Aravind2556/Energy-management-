@@ -323,41 +323,6 @@ router.get('/fetch-user',async (req,res)=>{
 
 
 
-router.get('/fetch-user', async (req, res) => {
-    try {
-        const users = await Register.find({});
-        const devices = await DeviceData.find({});
-
-        // Match users with their devices based on userId
-        const usersWithDevices = users.map(user => {
-            const device = devices.find(dev => dev.userId === user.userid);
-            console.log("device:", device)
-            if (user || device) {
-                return {
-                    userId: user.userid,  
-                    Name: user.Name,
-                    Contact: user.Contact,
-                    Email: user.Email,
-                    DeviceId: device.deviceId
-                };
-            }
-        })
-
-        console.log("User Device Data:", usersWithDevices);
-
-        if (usersWithDevices.length>0) {
-            return res.json({ success: true, users: usersWithDevices });
-        } else {
-            return res.json({ success: false, message: "User information not found, please try again later" });
-        }
-    } catch (err) {
-        console.error("Error fetching user data:", err);
-        return res.json({ response: "notok", message: "Trouble error, contact admin" });
-    }
-});
-
-
-
 router.get('/fetch-users', async (req, res)=>{
     try{
         const users = await Register.find({});
@@ -369,13 +334,13 @@ router.get('/fetch-users', async (req, res)=>{
             const tempUsers = users.map(async (user)=>{
                 const userDevices = await DeviceData.find({userId: user.userid}).select("deviceId")
                 const consolidatedDevices = userDevices.map(device=>device.deviceId)
-                let consolidatedUser = []
+                let consolidatedUser
                 if(userDevices && userDevices.length>0){
                     const tempuser = {...user.toObject(), devices: consolidatedDevices}
-                    consolidatedUser.push(tempuser)
+                    consolidatedUser = tempuser
                 }
                 else{
-                    consolidatedUser.push(user)
+                    consolidatedUser = user
                 }
                 return consolidatedUser
             })
