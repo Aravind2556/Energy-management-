@@ -1,6 +1,7 @@
 const express = require('express')
 const DeviceData = require('../model/Devicedata')
 const nodemailer = require("nodemailer");
+const RegisterModel = require('../model/Register');
 
 const Devicerouter = express.Router();
 
@@ -145,14 +146,19 @@ Devicerouter.get('/fetch-user-device',async (req,res)=>{
 
 Devicerouter.put(`/Update-device-data/:rangeid`, async (req, res) => {
     try {
+        console.log("API called")
         const { rangeid } = req.params;
-        console.log("params:", rangeid);
 
         const { formData } = req.body;
-        console.log("formData:", formData);
 
         if (!formData || Object.keys(formData).length === 0) {
-            return res.json({ response: "notok", message: "No update data provided" });
+            return res.json({ success: false, message: "No update data provided" });
+        }
+
+        const fetchDevice = await DeviceData.findOne({deviceId : rangeid})
+
+        if(!fetchDevice){
+            return res.send({success: false, message: "No device is available."})
         }
 
         // Update device data in MongoDB
@@ -163,14 +169,48 @@ Devicerouter.put(`/Update-device-data/:rangeid`, async (req, res) => {
         );
 
         if (!updates) {
-            return res.json({ response: "notok", message: "Device not found" });
+            return res.json({ success: false, message: "Device not found" });
         }
 
-        return res.json({ response: "ok", message: "Device data updated successfully", updates });
+        return res.json({ success: true, message: "Device data updated successfully", updates });
 
     } catch (err) {
         console.error("Error updating device data:", err);
-        return res.json({ response: "notok", message: "Trouble error, contact admin" });
+        return res.json({ success: false, message: "Trouble error, contact admin" });
+    }
+});
+
+Devicerouter.delete(`/delete-device/:deviceId`, async (req, res) => {
+    try {
+        const { deviceId } = req.params;
+        
+        if(!deviceId || deviceId==undefined){
+            return res.send({success: false, message: "Device Id not found!"})
+        }
+
+        const fetchDevice = await DeviceData.findOne({deviceId : deviceId})
+
+        if(!fetchDevice){
+            return res.send({success: false, message: "No device is available."})
+        }
+
+        const deleteDevice = await DeviceData.deleteOne({deviceId : deviceId})
+
+        const updateUser = await RegisterModel.updateOne({userid: fetchDevice.userId},
+            { $pull: { Alert: { DeviceId: fetchDevice.deviceId } } }
+        )
+
+        
+
+        if (!deleteDevice) {
+            return res.send({ success: false, message: "Device not found" });
+        }
+
+        return res.send({ success: true, message: "Device data deleted successfully!", updates });
+
+    } catch (err) {
+        console.error("Error updating device data:", err);
+        return res.send({ success: false, message: "Trouble error, contact admin" });
     }
 });
 
