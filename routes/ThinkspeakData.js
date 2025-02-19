@@ -213,6 +213,4 @@ setInterval(()=>{
     fetchLiveData()
 },5000)
 
-
-
 module.exports = DataRouter

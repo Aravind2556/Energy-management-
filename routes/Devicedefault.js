@@ -116,7 +116,6 @@ Devicerouter.get('/fetch-user-device',async (req,res)=>{
     try{
 
         const usersession =  req.session.profile
-        console.log("usersession",usersession)
         if(usersession){
             if(usersession.Role === 'Admin'){
                 const isadmin = await DeviceData.find({})
@@ -221,6 +220,9 @@ Devicerouter.post('/Email-alert',async (req,res)=>{
         return res.json({ response: "notok", message: "Trouble error, contact admin" });
     }
 })
+
+
+
 
 
 
