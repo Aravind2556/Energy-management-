@@ -33,11 +33,11 @@ const deviceSchema = new mongoose.Schema(
       low: {type: Number, required: true},
       high: {type: Number, required: true}
     },
-    vibration: {
-      value: {type: Number, required: true},
-      low: {type: Number, required: true},
-      high: {type: Number, required: true}
-    },
+    // vibration: {
+    //   value: {type: Number, required: true},
+    //   low: {type: Number, required: true},
+    //   high: {type: Number, required: true}
+    // },
     energy: {
       value: {type: Number, required: true},
       low: {type: Number, required: true},

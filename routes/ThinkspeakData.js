@@ -16,7 +16,7 @@ const fields = [
     { key: "field5", name: "frequency"},
     { key: "field6", name: "powerfactor"},
     { key: "field7", name: "tempeature"},
-    { key: "field8", name: "vibration"},
+    // { key: "field8", name: "vibration"},
 ];
 
 const sendEmail = async (userEmail, alerts, deviceId) => {
@@ -58,7 +58,9 @@ const fetchLiveData = async () => {
     .then(res=>res.json())
     .then(data=>{
         if(data.feeds && data.feeds.length>0){
-            const lastFeedData = data.feeds.splice(-1)[0]
+            let lastFeedData = data.feeds.splice(-1)[0]
+
+            delete lastFeedData.field8
 
             if(lastFeedData){
                 const RecentEntryID = Number(lastFeedData.entry_id)

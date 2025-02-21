@@ -36,7 +36,7 @@ Devicerouter.post("/Device_data", async (req, res) => {
             powerValue, powerLow, powerHigh,
             powerFactorValue, powerFactorLow, powerFactorHigh,
             temperatureValue, temperatureLow, temperatureHigh,
-            vibrationValue, vibrationLow, vibrationHigh,
+            // vibrationValue, vibrationLow, vibrationHigh,
             energyValue, energyLow, energyHigh,
             frequencyValue, frequencyLow, frequencyHigh
         } = req.body;
@@ -71,11 +71,11 @@ Devicerouter.post("/Device_data", async (req, res) => {
                 low: temperatureLow,
                 high: temperatureHigh,
             },
-            vibration: {
-                value: vibrationValue,
-                low: vibrationLow,
-                high: vibrationHigh,
-            },
+            // vibration: {
+            //     value: vibrationValue,
+            //     low: vibrationLow,
+            //     high: vibrationHigh,
+            // },
             energy: {
                 value: energyValue,
                 low: energyLow,

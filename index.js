@@ -12,7 +12,7 @@ const sessionConnect = require('connect-mongodb-session')(session)
 const app = express()
 
 const corsOptions = {  // orgin setup to front end 
-    origin: ['http://localhost:4001', 'https://3zn7kpnd-4001.inc1.devtunnels.ms'], 
+    origin: ['http://localhost:4001', 'https://3zn7kpnd-4001.inc1.devtunnels.ms', 'https://dkgsdb5n-4001.inc1.devtunnels.ms'], 
     credentials: true, 
 };
 
